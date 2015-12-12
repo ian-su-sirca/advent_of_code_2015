@@ -1,0 +1,36 @@
+#!/usr/bin/env python
+import requests
+import argparse
+import os, sys
+
+cookies = {
+    'session': 'YOUR_COOKIE_HERE'
+}
+
+url = 'http://adventofcode.com/day/%d/input'
+out = 'day%02d'
+name = 'input.txt'
+
+p = argparse.ArgumentParser()
+p.add_argument('day_start', type=int)
+p.add_argument('day_end', type=int)
+
+a = p.parse_args()
+
+def get_day(day): 
+    r = requests.get(url % day, cookies=cookies)
+    if r.status_code != 200:
+        print r.content
+        return False
+    path = out % day
+    if not os.path.exists(path):
+        os.makedirs(path)
+    with open('%s/%s' % (path, name), 'wb') as f:
+        f.write(r.content)
+    print 'wrote %s/%s' % (path, name)
+    return True
+
+for day in xrange(a.day_start, a.day_end + 1): 
+    if not get_day(day):
+        sys.exit(1)
+

@@ -1,12 +1,18 @@
 import argparse
+import StringIO
 
 class Processor(object):
     def __init__(self):
         p = argparse.ArgumentParser()
         p.add_argument('-i', '--inputfile', default='input.txt')
+        p.add_argument('-l', '--inputline', default=None)
         a = p.parse_args()
-        self.filename = a.inputfile
-        self.filehandle = open(a.inputfile, 'r')
+        if a.inputline:
+            self.filename = 'inputline'
+            self.filehandle = StringIO.StringIO(a.inputline)
+        else:   
+            self.filename = a.inputfile
+            self.filehandle = open(a.inputfile, 'r')
 
     def run(self):
         self.before()

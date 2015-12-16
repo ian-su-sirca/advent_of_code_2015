@@ -5,7 +5,7 @@ if [ -z $1 ]; then
 fi
 DAY=$(printf 'day%02d' $1)
 if [ -d $DAY ]; then
-    print 'already exists'
+    echo 'already exists'
     exit 1
 fi
 mkdir -p $DAY
